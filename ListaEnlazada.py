@@ -23,11 +23,60 @@ class lista_enlazada:
     print("Datos: \n")
     print("----------------------------------------------------------------------------")
     while actual != None:
-      print("Tiempo: ", actual.Dato._tiempo, " Amplitud: ", actual.Dato._amplitud)
+      print("Tiempo: ", actual.Dato._tiempo, " Amplitud: ", actual.Dato._amplitud, "Dato: ", actual.Dato._dato)
       actual = actual.siguiente
     print("----------------------------------------------------------------------------")
 
+  def recorrer2(self):
+    actual = self.primero
+    print("Recorrer2: \n")
+    while actual != None:      
+      actual = actual.siguiente
+      return actual.Dato
+    
+  def recorrer3(self):
+    actual = self.primero
+    segundo = self.primero
+    print("Tiempo: ", actual.Dato._tiempo)
+    while actual != None:
 
+        segundo = segundo.siguiente
+        if segundo != None:
+            if actual.Dato._tiempo == segundo.Dato._tiempo:
+                
+                
+                print(actual.Dato._dato, end="")
+                if actual.siguiente:  # Solo imprime la flecha si hay un nodo siguiente
+                    print(" -> ", end="")
+                actual = actual.siguiente
+            else:
+                print(actual.Dato._dato, end="")
+                print("")
+                actual= actual.siguiente            
+                print("Tiempo: ", actual.Dato._tiempo)
+        else:
+            print(actual.Dato._dato, end="")
+            actual = actual.siguiente
+    print("")
+
+  def contar_elementos(self):
+        temp = self.primero
+        count = 0
+        while temp:
+            count += 1
+            temp = temp.siguiente
+        return count
+
+  def buscar_tiempo(self, tiempo):
+    actual = self.primero
+
+    while actual:
+        if actual.Dato._tiempo == tiempo :
+            print("Tiempo Econtrado: ", actual.Dato._tiempo, "Amplitud: ", actual.Dato._amplitud)
+            return actual.Dato._amplitud            
+        actual = actual.siguiente
+
+    return False
   
 
     

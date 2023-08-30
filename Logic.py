@@ -13,14 +13,16 @@ def leerEntrada(xml_file):
     for dato_element in root.findall('.//dato'):
         tiempo = int(dato_element.get('t'))
         amplitud = int(dato_element.get('A'))
-
-        dato_obj = Dato(tiempo, amplitud)
+        dato = int(dato_element.text)
+        dato_obj = Dato(tiempo, amplitud, dato)
         sg.listaEntrada.insertar(dato_obj)
     
     sg.listaEntrada.recorrer()
 
 def procesarArchivo():
     print("Se comienza a procesar el archivo: ", sg.rutaArchivo)    
+    ##Se crea la matriz respectiva
+    sg.listaEntrada.recorrer3()
 
 
 
