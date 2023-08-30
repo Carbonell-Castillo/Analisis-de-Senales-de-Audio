@@ -22,8 +22,10 @@ def leerEntrada(xml_file):
 def procesarArchivo():
     print("Se comienza a procesar el archivo: ", sg.rutaArchivo)    
     ##Se crea la matriz respectiva
+    print("Se comienza a generar la matriz de frecuencia: ")
     sg.listaEntrada.recorrer3()
-
+    print("Se comienza a generar la matriz de patrones: ")
+    sg.listaEntrada.generarMatrizPatrones()
 
 
 

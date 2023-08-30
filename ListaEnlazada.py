@@ -59,6 +59,38 @@ class lista_enlazada:
             actual = actual.siguiente
     print("")
 
+  def generarMatrizPatrones(self):
+    actual = self.primero
+    segundo = self.primero
+    print("Tiempo: ", actual.Dato._tiempo)
+    while actual != None:
+
+        segundo = segundo.siguiente
+        if segundo != None:
+            if actual.Dato._tiempo == segundo.Dato._tiempo:
+                if actual.Dato._dato != 0:
+                    print(1, end="")
+                else:
+                    print(0, end="")
+                if actual.siguiente:  # Solo imprime la flecha si hay un nodo siguiente
+                    print(" -> ", end="")
+                actual = actual.siguiente
+            else:
+                if actual.Dato._dato != 0:
+                    print(1, end="")
+                else:
+                    print(0, end="")
+                print("")
+                actual= actual.siguiente            
+                print("Tiempo: ", actual.Dato._tiempo)
+        else:
+            if actual.Dato._dato != 0:
+                print(1, end="")
+            else:
+                print(0, end="")
+            actual = actual.siguiente
+    print("")
+    
   def contar_elementos(self):
         temp = self.primero
         count = 0
