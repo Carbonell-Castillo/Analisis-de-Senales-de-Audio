@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 import SG as sg ##Super global
-
+import Logic as logic
 
 
 if __name__ == "__main__":
@@ -10,18 +10,16 @@ if __name__ == "__main__":
         option = sg.showMenu()
 
         if option == 1:
-            inventario_inicial = sg.open_file()        
-            if inventario_inicial:
-                print("Cargando Inventario inicial desde:", inventario_inicial)
-                logic.leer_inventario(inventario_inicial)
+            archivo_entrada = sg.open_file()        
+            if archivo_entrada:
+                print("Cargando archivo de entrada desde:", archivo_entrada)
+                logic.leerEntrada(archivo_entrada)
 
         elif option == 2:
-            instrucciones_movimientos = sg.open_file()
-            if sg.listaProductos.esta_vacia():
+            if sg.listaEntrada.esta_vacia():
                 print("No existen productos en existencia")
-            elif instrucciones_movimientos:
-                print("Cargando Instrucciones de movimientos desde:", instrucciones_movimientos)
-                logic.leer_movimientos(instrucciones_movimientos)
+            else:
+                logic.procesarArchivo()
         
         elif option == 3:
             if sg.listaProductos.esta_vacia():

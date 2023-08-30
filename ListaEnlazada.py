@@ -20,10 +20,10 @@ class lista_enlazada:
 
   def recorrer(self):
     actual = self.primero
-    print("Recorrer: \n")
+    print("Datos: \n")
     print("----------------------------------------------------------------------------")
     while actual != None:
-      print("Tiempo: ", actual.Dato._tiempo, " Amplitud: ", actual.Dato._Amplitud)
+      print("Tiempo: ", actual.Dato._tiempo, " Amplitud: ", actual.Dato._amplitud)
       actual = actual.siguiente
     print("----------------------------------------------------------------------------")
 
