@@ -14,7 +14,7 @@ def leerEntrada(xml_file):
         tiempo = int(dato_element.get('t'))
         amplitud = int(dato_element.get('A'))
         dato = int(dato_element.text)
-        dato_obj = Dato(tiempo, amplitud, dato)
+        dato_obj = Dato("", tiempo, amplitud, dato)
         sg.listaEntrada.insertar(dato_obj)
     
     sg.listaEntrada.recorrer()

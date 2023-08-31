@@ -1,4 +1,6 @@
 from Dato import Dato
+from Tiempo import Tiempo
+import SG as sg
 import os
 
 class nodo:
@@ -28,6 +30,15 @@ class lista_enlazada:
       actual = actual.siguiente
     print("----------------------------------------------------------------------------")
 
+  def recorrerMatrizReducida(self):
+    actual = self.primero
+    print("Datos: \n")
+    print("----------------------------------------------------------------------------")
+    while actual != None:
+      print("Grupo: ", actual.Dato._grupo, " ", actual.Dato._tiempo, " Amplitud: ", actual.Dato._amplitud, " Dato: ", actual.Dato._dato)
+      actual = actual.siguiente
+    print("----------------------------------------------------------------------------")
+  
   def recorrer2(self):
     actual = self.primero
     print("Recorrer2: \n")
@@ -65,9 +76,14 @@ class lista_enlazada:
     print("Tiempo:", actual.Dato._tiempo)
     primerDatoMismoTiempo = None
     grupoValido=False
+    terminaFila=False
     count=1
+    count2=0
+    salida=""
+    estado = False
     while actual is not None:
         segundo = self.primero
+        salida=""
         while segundo is not None:
             segundo2= segundo.siguiente    
             if actual.Dato._tiempo != segundo.Dato._tiempo:
@@ -75,6 +91,39 @@ class lista_enlazada:
                 print("Tempo1:", actual.Dato._tiempo, "tempo2:", segundo.Dato._tiempo)
                 print("Dato1:", actual.Dato._dato, "Dato2:", segundo.Dato._dato)
                 
+                if actual.Dato._dato !=0 and segundo.Dato._dato !=0:
+                    
+                    salida= salida+ str(actual.Dato._dato+segundo.Dato._dato)+ "->"
+                    tempTiempo="Tiempo "+ str(actual.Dato._tiempo)+ " y "+ str(segundo.Dato._tiempo)
+                    tempTiempo2= "Tiempo "+ str(segundo.Dato._tiempo)+ " y "+ str(actual.Dato._tiempo)
+                    
+                    print("TIempo temporal: ", tempTiempo)
+                    if sg.listaMatrizReducida.buscar_dato(tempTiempo2):
+                        dato_obj = Dato(("Grupo "+str(count)), tempTiempo, actual.Dato._amplitud, (actual.Dato._dato+segundo.Dato._dato))
+                        sg.listaMatrizReducida.insertar(dato_obj)
+                        print("Se aguardo: "+ str(actual.Dato._dato))
+                        count2 +=1
+                        grupoValido= True
+                    else:
+                        grupoValido= False
+                        print("Se encontro")
+                elif actual.Dato._dato ==0 and segundo.Dato._dato ==0:
+                    
+                    salida= salida + "->"+str(actual.Dato._dato)
+                    tempTiempo="Tiempo "+ str(actual.Dato._tiempo)+ " y "+ str(segundo.Dato._tiempo)
+                    tempTiempo2= "Tiempo "+ str(segundo.Dato._tiempo)+ " y "+ str(actual.Dato._tiempo)
+                    print("TIempo temporal: ", tempTiempo)
+                    if sg.listaMatrizReducida.buscar_dato(tempTiempo2):
+                        dato_obj = Dato(("Grupo "+str(count)), tempTiempo, actual.Dato._amplitud, (actual.Dato._dato+segundo.Dato._dato))
+                        sg.listaMatrizReducida.insertar(dato_obj)
+                        count2 +=1
+                        grupoValido= True
+                    else:
+                        grupoValido= False
+                        print("Se encontro")
+                else:
+                    grupoValido= False
+                    estado= True
                 # if grupoValido:
                 #     print(actual.Dato._dato, end="")
                 #     if actual.siguiente:  # Solo imprime la flecha si hay un nodo siguiente
@@ -84,15 +133,60 @@ class lista_enlazada:
                 #     print("")
                 if primerDatoMismoTiempo is None and actual.Dato._tiempo == tiempoAnterior:
                     primerDatoMismoTiempo = actual  # Guardar el primer dato con el mismo tiempo
+                tiempo_actual = actual.Dato._tiempo
+
                 actual = actual.siguiente
+                
                 if actual is None:
                     actual = primerDatoMismoTiempo  # Volver al primer dato con el mismo
+                    if estado is False:
+                        print("----Grupo encontrado----")
+                        print("Grupo tiempo: ", actual.Dato._tiempo, " y ", segundo.Dato._tiempo)
+                        print(salida)
+                        print("-----------.---")
+                        if grupoValido is True:
+                            count +=1
+                            tiempo_actual_insertar= Tiempo(tiempo_actual)
+                            sg.listaTiempos.insertar(tiempo_actual_insertar)
+                            tiempo_segundo = Tiempo(segundo.Dato._tiempo)
+                            sg.listaTiempos.insertar(tiempo_segundo)
+                            sg.listaEntrada.tiempo_modificar(tiempo_actual, "GEncontrado")
+                            sg.listaEntrada.tiempo_modificar(segundo.Dato._tiempo, "GEncontrado")
+                        salida=""
+                        count2=0
+                        grupoValido= False
+                    else:
+                        sg.listaMatrizReducida.limpiar(count2)
+                        salida=""
+                        estado= False
+                        count2=0
+                        
                 if tiempoAnterior is not None and actual.Dato._tiempo != tiempoAnterior:
+                    if estado is False:
+                        print("----Grupo encontrado----")
+                        print("Grupo tiempo: ", actual.Dato._tiempo, " y ", segundo.Dato._tiempo)
+                        print(salida)
+                        print("---------------")
+                        if grupoValido is True:
+                            count +=1
+                            tiempo_actual_insertar= Tiempo(tiempo_actual)
+                            sg.listaTiempos.insertar(tiempo_actual_insertar)
+                            tiempo_segundo = Tiempo(segundo.Dato._tiempo)
+                            sg.listaTiempos.insertar(tiempo_segundo)
+                            sg.listaEntrada.tiempo_modificar(tiempo_actual, "GEncontrado")
+                            sg.listaEntrada.tiempo_modificar(segundo.Dato._tiempo, "GEncontrado")
+                        grupoValido=False
+                        salida=""
+                        count2=0
+                    else:
+                        sg.listaMatrizReducida.limpiar(count2)
+                        salida=""
+                        estado= False
+                        count2=0
+                    
                     actual = primerDatoMismoTiempo  # Volver al primer dato con el mismo tiempo
                     print("Regresé al primer dato con el mismo tiempo")
-        
-                
-                
+                    terminaFila=True                                
                 # if actual.Dato._tiempo != tiempoAnterior and segundo2 != None:
                 #    actual= self.primero
                 #    print("Entro")
@@ -102,12 +196,110 @@ class lista_enlazada:
         while actual is not None and actual.Dato._tiempo == tiempoAnterior:
             actual = actual.siguiente
         primerDatoMismoTiempo = actual
-
+        
         if actual is not None:
             tiempoAnterior= actual.Dato._tiempo
             print("\nTiempo:", actual.Dato._tiempo)
+    countTiempos = count - 1
+    print("C tiemo: " + str(countTiempos) + " 2: " + str(sg.listaEntrada.contarTiempos()))
+
+    if countTiempos < sg.listaEntrada.contarTiempos():
+
+        actual3 = self.primero
+        # segundo3 = sg.listaTiempos.primero
+        print("Tiempo: ", actual3.Dato._tiempo)
+        countTiempoRecorrido=0
+        while actual3 != None:
+            if actual3.Dato._grupo == "":
+                print("Entro221")
+                tempTiempo2= "Tiempo "+ str(actual3.Dato._tiempo)
+                obj_restante = Dato(("Grupo "+str(count)), tempTiempo2, actual3.Dato._amplitud, (actual3.Dato._dato))
+                sg.listaMatrizReducida.insertar(obj_restante)
+                actual3= actual3.siguiente
+                countTiempoRecorrido +=1
+                if countTiempoRecorrido == sg.listaEntrada.cantidad_tiempos(actual3.Dato._tiempo):
+                    count +=1
+                    print("Se sumo: "+str(count))
+            else:
+                actual3 = actual3.siguiente
+        print("")
+
+    sg.listaMatrizReducida.recorrerMatrizReducida()
+    sg.listaTiempos.recorrer()
 
 
+  def tiempo_modificar(self,  tiempo_buscar, grupo):
+    actual = self.primero
+    while actual is not None:
+        if actual.Dato._tiempo == tiempo_buscar:
+            actual.Dato._grupo= grupo
+        actual = actual.siguiente
+  
+  def cantidad_tiempos(self, tiempo_buscar):
+    cantidad = 0
+    actual = self.primero
+    while actual is not None:
+        if actual.Dato._tiempo == tiempo_buscar:
+            cantidad +=1
+        actual = actual.siguiente
+    return cantidad
+  
+  def agregar_tiempos_faltantes(lista, total_tiempos):
+    for i in range(1, total_tiempos + 1):
+        tiempo_faltante = "Tiempo " + str(i)
+        if not sg.listaMatrizReducida.tiempo_presente(tiempo_faltante):
+            dato_obj = Dato(("Grupo "+str(lista.contarTiempos() + 1)), tiempo_faltante, 0, 0)
+            lista.insertar(dato_obj)
+
+
+  def buscar_dato(self, tiempo_buscar):
+    actual = self.primero
+    while actual is not None:
+        if actual.Dato._tiempo == tiempo_buscar:
+            return False
+        actual = actual.siguiente
+    return True
+  
+  def limpiar(self, cantidad):
+        print("Se limpia")
+        if cantidad <= 0:
+            return  # No se necesita hacer nada si la cantidad es 0 o negativa
+
+        if self.primero is None:
+            return  # No hay elementos en la lista
+
+        # Contar la cantidad total de nodos en la lista
+        total_nodos = 0
+        actual = self.primero
+        while actual is not None:
+            total_nodos += 1
+            actual = actual.siguiente
+
+        # Si la cantidad a borrar es mayor o igual al total de nodos, borra toda la lista
+        if cantidad >= total_nodos:
+            self.primero = None
+            return
+
+        # Mover hasta el nodo anterior al primero a eliminar
+        nodo_anterior = None
+        actual = self.primero
+        for _ in range(total_nodos - cantidad):
+            nodo_anterior = actual
+            actual = actual.siguiente
+
+        # Ahora actual es el primer nodo a eliminar
+        if nodo_anterior is not None:
+            nodo_anterior.siguiente = None
+        else:
+            self.primero = None
+
+        # Liberar memoria de los nodos eliminados
+        while actual is not None:
+            temp = actual
+            actual = actual.siguiente
+            del temp  
+    
+  
   def generarMatrizPatrones(self):
     actual = self.primero
     segundo = self.primero
