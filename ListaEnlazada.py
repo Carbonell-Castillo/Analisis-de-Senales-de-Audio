@@ -1,5 +1,6 @@
 from Dato import Dato
 import os
+
 class nodo:
   def __init__(self, Dato=None, siguiente=None):
     self.Dato = Dato
@@ -33,8 +34,8 @@ class lista_enlazada:
     while actual != None:      
       actual = actual.siguiente
       return actual.Dato
-    
-  def recorrer3(self):
+ 
+  def generarMatrizFrecuencia(self):
     actual = self.primero
     segundo = self.primero
     print("Tiempo: ", actual.Dato._tiempo)
@@ -43,8 +44,6 @@ class lista_enlazada:
         segundo = segundo.siguiente
         if segundo != None:
             if actual.Dato._tiempo == segundo.Dato._tiempo:
-                
-                
                 print(actual.Dato._dato, end="")
                 if actual.siguiente:  # Solo imprime la flecha si hay un nodo siguiente
                     print(" -> ", end="")
@@ -58,6 +57,56 @@ class lista_enlazada:
             print(actual.Dato._dato, end="")
             actual = actual.siguiente
     print("")
+
+  def gene2(self):
+    actual = self.primero
+    print("Tiempo:", actual.Dato._tiempo)
+    tiempoAnterior = actual.Dato._tiempo
+    print("Tiempo:", actual.Dato._tiempo)
+    primerDatoMismoTiempo = None
+    grupoValido=False
+    count=1
+    while actual is not None:
+        segundo = self.primero
+        while segundo is not None:
+            segundo2= segundo.siguiente    
+            if actual.Dato._tiempo != segundo.Dato._tiempo:
+                
+                print("Tempo1:", actual.Dato._tiempo, "tempo2:", segundo.Dato._tiempo)
+                print("Dato1:", actual.Dato._dato, "Dato2:", segundo.Dato._dato)
+                
+                # if grupoValido:
+                #     print(actual.Dato._dato, end="")
+                #     if actual.siguiente:  # Solo imprime la flecha si hay un nodo siguiente
+                #         print(" -> ", end="")
+                #     print(segundo.Dato._dato, end="")                        
+                #     print(" = ", (actual.Dato._dato+segundo.Dato._dato), end="")
+                #     print("")
+                if primerDatoMismoTiempo is None and actual.Dato._tiempo == tiempoAnterior:
+                    primerDatoMismoTiempo = actual  # Guardar el primer dato con el mismo tiempo
+                actual = actual.siguiente
+                if actual is None:
+                    actual = primerDatoMismoTiempo  # Volver al primer dato con el mismo
+                if tiempoAnterior is not None and actual.Dato._tiempo != tiempoAnterior:
+                    actual = primerDatoMismoTiempo  # Volver al primer dato con el mismo tiempo
+                    print("Regresé al primer dato con el mismo tiempo")
+        
+                
+                
+                # if actual.Dato._tiempo != tiempoAnterior and segundo2 != None:
+                #    actual= self.primero
+                #    print("Entro")
+                       
+            segundo = segundo.siguiente
+            
+        while actual is not None and actual.Dato._tiempo == tiempoAnterior:
+            actual = actual.siguiente
+        primerDatoMismoTiempo = actual
+
+        if actual is not None:
+            tiempoAnterior= actual.Dato._tiempo
+            print("\nTiempo:", actual.Dato._tiempo)
+
 
   def generarMatrizPatrones(self):
     actual = self.primero
@@ -90,7 +139,134 @@ class lista_enlazada:
                 print(0, end="")
             actual = actual.siguiente
     print("")
+
     
+    actual = self.primero
+    segundo = self.primero
+    tiempo_actual = -1  # Inicializar con un valor que no sea posible en tu caso
+    fila_reducida_1 = 0
+    fila_reducida_2 = 0
+    fila_reducida_3 = 0
+    fila_reducida_4 = 0
+
+    while actual is not None:
+        segundo = segundo.siguiente
+        
+        if segundo is not None:
+            if actual.Dato._tiempo == segundo.Dato._tiempo:
+                if tiempo_actual != actual.Dato._tiempo:
+                    tiempo_actual = actual.Dato._tiempo
+                    fila_reducida_1 = 0
+                    fila_reducida_2 = 0
+                    fila_reducida_3 = 0
+                    fila_reducida_4 = 0
+
+                fila_reducida_1 += actual.Dato._dato
+                fila_reducida_2 += actual.Dato._amplitud
+                fila_reducida_3 += actual.Dato._dato  # Otra vez, para hacer la suma de 0 y 1
+                fila_reducida_4 += actual.Dato._amplitud  # Otra vez, para hacer la suma de 0 y 1
+                actual = actual.siguiente
+            else:
+                if tiempo_actual != actual.Dato._tiempo:
+                    tiempo_actual = actual.Dato._tiempo
+                    print(fila_reducida_1, fila_reducida_2, fila_reducida_3, fila_reducida_4)
+                    fila_reducida_1 = 0
+                    fila_reducida_2 = 0
+                    fila_reducida_3 = 0
+                    fila_reducida_4 = 0
+                
+                fila_reducida_1 += actual.Dato._dato
+                fila_reducida_2 += actual.Dato._amplitud
+                fila_reducida_3 += actual.Dato._dato
+                fila_reducida_4 += actual.Dato._amplitud
+                
+                actual = actual.siguiente
+        
+        else:
+            if tiempo_actual != actual.Dato._tiempo:
+                tiempo_actual = actual.Dato._tiempo
+                print(fila_reducida_1, fila_reducida_2, fila_reducida_3, fila_reducida_4)
+                fila_reducida_1 = 0
+                fila_reducida_2 = 0
+                fila_reducida_3 = 0
+                fila_reducida_4 = 0
+            
+            fila_reducida_1 += actual.Dato._dato
+            fila_reducida_2 += actual.Dato._amplitud
+            fila_reducida_3 += actual.Dato._dato
+            fila_reducida_4 += actual.Dato._amplitud
+            
+            actual = actual.siguiente
+
+    actual = self.primero
+    segundo = self.primero
+    tiempo_actual = -1  # Inicializar con un valor que no sea posible en tu caso
+
+    while actual is not None:
+        segundo = segundo.siguiente
+        
+        if segundo is not None:
+            if actual.Dato._tiempo == segundo.Dato._tiempo:
+                if tiempo_actual != actual.Dato._tiempo:
+                    tiempo_actual = actual.Dato._tiempo
+                    print("\nGrupo:", end=" ")
+                print(actual.Dato._dato, end=" ")
+                actual = actual.siguiente
+            else:
+                if tiempo_actual != actual.Dato._tiempo:
+                    tiempo_actual = actual.Dato._tiempo
+                    print("\nGrupo:", end=" ")
+                print(actual.Dato._dato)
+                actual = actual.siguiente
+        
+        else:
+            if tiempo_actual != actual.Dato._tiempo:
+                tiempo_actual = actual.Dato._tiempo
+                print("\nGrupo:", end=" ")
+            print(actual.Dato._dato)
+            actual = actual.siguiente
+  
+  def generarMatrizR(self):
+    cantidad_tiempos = self.contar_elementos()
+    actual = self.primero
+    
+    for tiempo1 in range(1, cantidad_tiempos + 1):
+        segundo = self.primero  
+        for tiempo2 in range(tiempo1, cantidad_tiempos + 1):
+            grupo_valido = True 
+            
+            if segundo is not None and actual is not None:  # Asegurarse de que ambos nodos sean válidos
+                if actual.Dato._tiempo != segundo.Dato._tiempo:
+                    print("Tmp1:", actual.Dato._tiempo, "Tmp2:", segundo.Dato._tiempo)
+                segundo = segundo.siguiente
+            else:
+                break  # Si alguno de los nodos es None, no hay necesidad de seguir
+            
+        actual = actual.siguiente    
+
+    
+
+# Llamar al método generarMatrizR
+
+
+
+# Llamar al método generarMatrizR
+   
+  def contarTiempos(self):      
+    actual = self.primero
+    count = 1
+    while actual is not None:
+        segundo = actual.siguiente
+        
+        if segundo is not None and actual.Dato._tiempo != segundo.Dato._tiempo:
+            count += 1
+        
+        actual = actual.siguiente
+            
+    print("Cantidad de tiempos:", count)
+    return count
+
+
   def contar_elementos(self):
         temp = self.primero
         count = 0

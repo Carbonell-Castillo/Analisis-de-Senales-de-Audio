@@ -23,9 +23,12 @@ def procesarArchivo():
     print("Se comienza a procesar el archivo: ", sg.rutaArchivo)    
     ##Se crea la matriz respectiva
     print("Se comienza a generar la matriz de frecuencia: ")
-    sg.listaEntrada.recorrer3()
+    sg.listaEntrada.generarMatrizFrecuencia()
     print("Se comienza a generar la matriz de patrones: ")
     sg.listaEntrada.generarMatrizPatrones()
+    print("Se comienza a generar la matriz reducida")
+    sg.listaEntrada.contarTiempos()
+    sg.listaEntrada.gene2()
 
 
 
