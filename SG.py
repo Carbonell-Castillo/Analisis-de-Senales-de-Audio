@@ -1,9 +1,14 @@
 import tkinter as tk 
 from tkinter import filedialog 
 import ListaEnlazada as lista
-
+import ListaTiempo as listaTiempo
+import ListaSeñal as listaSeñal
 rutaArchivo=""
 listaEntrada = lista.lista_enlazada()
+listaMatrizReducida = lista.lista_enlazada()
+listaTiempos= listaTiempo.lista_enlazada()
+listaSeñales = listaSeñal.lista_enlazada()
+
 def showMenu():
     while True:
         print("-------------------------------------------------")
@@ -46,3 +51,4 @@ def open_file():
     else:
         print("Ningún archivo seleccionado")
         return None
+    
