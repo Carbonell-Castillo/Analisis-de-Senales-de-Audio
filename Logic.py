@@ -3,6 +3,7 @@ from Dato import Dato
 from Señal import Señal
 import SG as sg
 import ListaEnlazada as lista
+from Graph import Graph
 
 def validar_tiempo_amplitud(tiempo, amplitud, signal_t, signal_a):
     if tiempo < 1 or tiempo > signal_t:
@@ -35,7 +36,7 @@ def leerEntrada(xml_file):
                 listaEntrada.insertar(dato_obj)
 
             print(f"Señal: {nombre}")
-            señal_obj= Señal(nombre, listaEntrada, listaMatrizReducida)
+            señal_obj= Señal(nombre,tiempo_total, amplitud_total, listaEntrada, listaMatrizReducida)
             sg.listaSeñales.insertar(señal_obj)
     sg.listaSeñales.recorrer()
     # for dato_element in root.findall('.//dato'):
@@ -64,11 +65,21 @@ def procesarArchivo():
         print("")
         print("Se comienza a generar la matriz reducida")
         actual.Señal._listaEntrada.gene2(actual.Señal._listaSalida)
+
+        print("Se comienza a generar la grafica")
+        print("")
+        actual.Señal._listaSalida.recorrerMatrizReducida()
+        graph = Graph()
+        graph.graficar(actual.Señal._listaEntrada, actual.Señal._tiempo, actual.Señal._amplitud, actual.Señal._nombre)
+        # print("Se comienza a generar la grafica reducida")
+        # graph = Graph()
+        # graph.graficarMatrizReducida(actual.Señal._listaSalida, actual.Señal._amplitud, actual.Señal._nombre)
         print("-------------------------")
         print("")
+
         sg.listaTiempos.limpiar()
         actual = actual.siguiente
-    
+        
     # sg.listaEntrada.generarMatrizFrecuencia()
     # print("Se comienza a generar la matriz de patrones: ")
     # sg.listaEntrada.generarMatrizPatrones()

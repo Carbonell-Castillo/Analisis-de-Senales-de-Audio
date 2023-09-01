@@ -8,7 +8,8 @@ listaEntrada = lista.lista_enlazada()
 listaMatrizReducida = lista.lista_enlazada()
 listaTiempos= listaTiempo.lista_enlazada()
 listaSeñales = listaSeñal.lista_enlazada()
-
+listaTemp= lista.lista_enlazada()
+listaTemp2= lista.lista_enlazada()
 def showMenu():
     while True:
         print("-------------------------------------------------")
