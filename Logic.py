@@ -4,6 +4,7 @@ from Señal import Señal
 import SG as sg
 import ListaEnlazada as lista
 from Graph import Graph
+from xml.dom import minidom
 
 def validar_tiempo_amplitud(tiempo, amplitud, signal_t, signal_a):
     if tiempo < 1 or tiempo > signal_t:
@@ -66,27 +67,83 @@ def procesarArchivo():
         print("Se comienza a generar la matriz reducida")
         actual.Señal._listaEntrada.gene2(actual.Señal._listaSalida)
 
-        print("Se comienza a generar la grafica")
-        print("")
-        actual.Señal._listaSalida.recorrerMatrizReducida()
-        graph = Graph()
-        graph.graficar(actual.Señal._listaEntrada, actual.Señal._tiempo, actual.Señal._amplitud, actual.Señal._nombre)
+        # print("Se comienza a generar la grafica")
+        # print("")
+        # graph = Graph()
+        # graph.graficar(actual.Señal._listaEntrada, actual.Señal._tiempo, actual.Señal._amplitud, actual.Señal._nombre)
         # print("Se comienza a generar la grafica reducida")
         # graph = Graph()
         # graph.graficarMatrizReducida(actual.Señal._listaSalida, actual.Señal._amplitud, actual.Señal._nombre)
+        # print("-------------------------")
+        # print("")
+
+        # sg.listaTiempos.limpiar()
+        actual = actual.siguiente
+
+def generarGrafica(nSeñal):
+        actual = sg.listaSeñales.obtener_señal_por_posicion(nSeñal)
+
+        print("Se comienza a generar la grafica")
+        print("")
+        graph = Graph()
+
+        graph.graficar(actual._listaEntrada, actual._tiempo, actual._amplitud, actual._nombre)
+        print("Se comienza a generar la grafica reducida")
+        graph = Graph()
+        graph.graficarMatrizReducida(actual._listaSalida, actual._amplitud, actual._nombre)
         print("-------------------------")
         print("")
 
-        sg.listaTiempos.limpiar()
-        actual = actual.siguiente
+def escribir_archivo_salida():
+    root = ET.Element("senalesReducidas")
+    actual = sg.listaSeñales.primero
+    while actual is not None:
+        señal_element = ET.SubElement(root, "senal")
+        señal_element.set("nombre", actual.Señal._nombre)
+        señal_element.set("A", str(actual.Señal._amplitud))
+        listaReducida = actual.Señal._listaSalida
         
-    # sg.listaEntrada.generarMatrizFrecuencia()
-    # print("Se comienza a generar la matriz de patrones: ")
-    # sg.listaEntrada.generarMatrizPatrones()
-    # print("Se comienza a generar la matriz reducida")
-    # sg.listaEntrada.contarTiempos()
-    # sg.listaEntrada.gene2()
+        count = 0
+        tiempo_actual = None
+        grupo_element = None
+        tiempos_element = None
+        datos_grupo_element = None
+        
+        actualLista = listaReducida.primero
+        while actualLista is not None:
+            if actualLista.Dato._tiempo != tiempo_actual:
+                if grupo_element is not None:
+                    señal_element.append(grupo_element)
+                grupo_element = ET.Element("grupo")
+                grupo_element.set("g", str(actualLista.Dato._grupo))
+                tiempos_element = ET.Element("tiempos")
+                tiempos_element.text = actualLista.Dato._tiempo
+                grupo_element.append(tiempos_element)
+                datos_grupo_element = ET.Element("datosGrupo")
+                grupo_element.append(datos_grupo_element)
+                tiempo_actual = actualLista.Dato._tiempo
+            
+            dato_element = ET.Element("dato")
+            dato_element.set("A", str(actualLista.Dato._amplitud))
+            dato_element.text = str(actualLista.Dato._dato)
+            datos_grupo_element.append(dato_element)
+            
+            actualLista = actualLista.siguiente
+        
+        if grupo_element is not None:
+            señal_element.append(grupo_element)
+        
+        actual = actual.siguiente
+    
+    # Crear y formatear la salida XML
+    xml_string = ET.tostring(root, encoding="utf-8")
+    xml_pretty = minidom.parseString(xml_string).toprettyxml(indent="  ")
 
+    # Escribir el archivo XML
+    with open("salida.xml", "w") as archivo_xml:
+        archivo_xml.write(xml_pretty)
+
+    print("Archivo XML de salida creado con éxito.")
 
 
 

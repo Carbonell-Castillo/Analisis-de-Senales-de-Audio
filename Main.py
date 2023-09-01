@@ -17,17 +17,32 @@ if __name__ == "__main__":
 
         elif option == 2:
             if sg.listaSeñales.esta_vacia():
-                print("No existen productos en existencia")
+                print("No existen Señales en existencia")
             else:
                 logic.procesarArchivo()
         
         elif option == 3:
-            if sg.listaProductos.esta_vacia():
-                print("No existen productos en existencia")
+            if sg.listaSeñales.esta_vacia():
+                print("No existen Señales en existencia")
             else:
-                sg.listaProductos.generar_reporte("Reporte.txt")
-
+                logic.escribir_archivo_salida()
+        
         elif option == 4:
+            print("Bruce Carbonell Castillo Cifuentes")
+            print("202203069")
+            print("Introduccion a la Programacion y computacion 2 Seccion N")
+            print("Ingenieria en Ciencias y Sistemas")
+            print("4to Semestre")
+
+        elif option == 5:
+            if sg.listaSeñales.esta_vacia():
+                print("No existen Señales en existencia")
+            else:
+                suboption= sg.showSeñales()
+                suboption=suboption-1
+                logic.generarGrafica(suboption)
+
+        elif option == 7:
             print("Saliendo...")
             break
         else:

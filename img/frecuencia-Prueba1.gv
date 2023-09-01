@@ -1,0 +1,26 @@
+digraph structs {
+	node [fontname=Helvetica shape=record]
+	Prueba1 [label=Prueba1]
+	Prueba1 -> "t=5"
+	Prueba1 -> "A=4"
+	Prueba1 -> t1_Valor2
+	Prueba1 -> t1_Valor3
+	Prueba1 -> t1_Valor0
+	Prueba1 -> t1_Valor4
+	t1_Valor2 -> t2_Valor0
+	t1_Valor3 -> "t 2_Valor0"
+	t1_Valor0 -> "t  2_Valor6"
+	t1_Valor4 -> "t   2_Valor3"
+	t2_Valor0 -> t3_Valor3
+	"t 2_Valor0" -> "t 3_Valor4"
+	"t  2_Valor6" -> "t  3_Valor0"
+	"t   2_Valor3" -> "t   3_Valor2"
+	t3_Valor3 -> t4_Valor1
+	"t 3_Valor4" -> "t 4_Valor0"
+	"t  3_Valor0" -> "t  4_Valor1"
+	"t   3_Valor2" -> "t   4_Valor5"
+	t4_Valor1 -> t5_Valor0
+	"t 4_Valor0" -> "t 5_Valor0"
+	"t  4_Valor1" -> "t  5_Valor3"
+	"t   4_Valor5" -> "t   5_Valor1"
+}

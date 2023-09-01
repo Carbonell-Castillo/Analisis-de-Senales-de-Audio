@@ -213,7 +213,6 @@ class lista_enlazada:
         if actual.Dato._tiempo == tiempo_buscar:
             return False
         actual = actual.siguiente
-    print("Se busco el dato: "+ str(tiempo_buscar))
     return True
     
   def buscar_valor(self, valor):
@@ -222,7 +221,6 @@ class lista_enlazada:
         if actual.Dato._dato == valor:
             return False
         actual = actual.siguiente
-    print("Se busco el dato: "+ str(valor))
     return True
   
   def limpiarTodo(self):
@@ -374,7 +372,6 @@ class lista_enlazada:
         
         actual = actual.siguiente
             
-    print("Cantidad de tiempos:", count)
     return count
 
 

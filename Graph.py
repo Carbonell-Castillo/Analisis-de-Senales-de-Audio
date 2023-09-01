@@ -25,6 +25,7 @@ class Graph:
         self.dot.edge(ultimo_nodo_tiempo, nodo_dato)
         nodo_dato="A="+str(AmplitudTotal)
         self.dot.edge(ultimo_nodo_tiempo, nodo_dato)
+        countInterno=0
         while count < cantidadTiempos:
             actual = listaEntrada.primero
             count +=1
@@ -32,6 +33,7 @@ class Graph:
             while actual is not None:
                 if actual.Dato._tiempo == count:
                     if count ==1:
+                        countInterno+=1
                         tiempo = actual.Dato._tiempo
                         amplitud = actual.Dato._amplitud
                         valor = actual.Dato._dato
@@ -42,7 +44,7 @@ class Graph:
                         
                         if sg.listaTemp.buscar_dato(actual.Dato._tiempo) != True:
                             espaciadoTexto= espaciadoTexto+" "
-                            datoTemp_obj = Dato(nodo_dato,(espaciadoTexto+str(actual.Dato._tiempo)), "", "")
+                            datoTemp_obj = Dato(nodo_dato,(espaciadoTexto+str(actual.Dato._tiempo)), "", str(countInterno))
                             sg.listaTemp.insertar(datoTemp_obj)
                         else:
                             datoTemp_obj = Dato(nodo_dato,str(actual.Dato._tiempo), "", "")
@@ -51,26 +53,21 @@ class Graph:
                         # Conectar el último nodos del primero tiempo al nombre de la señal
                         self.dot.edge(ultimo_nodo_tiempo, nodo_dato)
                     else:
-                        
-                        print("Entrooooooo2222")
+
                         tiempo = actual.Dato._tiempo
                         amplitud = actual.Dato._amplitud
                         valor = actual.Dato._dato
                         nodo_dato = f"t{espaciadoTexto+str(tiempo)}_Valor{valor}"
                         ultimo_nodo_tiempo = sg.listaTemp.obtener_primer_dato()                   
-                        print("Primer tiempo: "+ultimo_nodo_tiempo)
-                        print("Nodo Dato: "+ nodo_dato)
-                        print("c: "+str( sg.listaTemp.contar_elementos()))
+
                         if sg.listaTemp2.buscar_dato(actual.Dato._tiempo) != True:
                             espaciadoTexto= espaciadoTexto+" "
                             nodo_dato = f"t{espaciadoTexto+str(tiempo)}_Valor{valor}"
                             datoTemp_obj = Dato(nodo_dato, actual.Dato._tiempo, "", "")
                             sg.listaTemp2.insertar(datoTemp_obj)
-                            print("Se agregoo1")
                         else:
                             datoTemp_obj = Dato(nodo_dato, actual.Dato._tiempo, "", "")
                             sg.listaTemp2.insertar(datoTemp_obj)
-                            print("Se agregoo2")
                         
                         self.dot.edge(ultimo_nodo_tiempo, nodo_dato)
                         
@@ -129,7 +126,6 @@ class Graph:
                         nodo_tiempo = f"t{tiempo}"
                         # Crear un nodo para el dato en el gráfico
                         nodo_dato = f"{espaciadoTexto+str(valor)}"
-                        print("Nodo tiempo 1: "+ nodo_tiempo)
                         if sg.listaTemp.buscar_dato(actual.Dato._tiempo) != True:
                             espaciadoTexto= espaciadoTexto+" "
                             datoTemp_obj = Dato(nodo_dato,(espaciadoTexto+str(actual.Dato._tiempo)), "", "")
@@ -142,7 +138,6 @@ class Graph:
                         self.dot.edge(ultimo_nodo_tiempo, nodo_dato)
                     else:
                         
-                        print("Entrooooooo2222")
                         tiempo = actual.Dato._tiempo
                         amplitud = actual.Dato._amplitud
                         
@@ -156,31 +151,20 @@ class Graph:
                         nodo_dato = f"{espaciadoTexto+str(valor)}"
                         ultimo_nodo_tiempo = sg.listaTemp.obtener_primer_dato()                   
                         
-                        
-                        print("Primer tiempo: "+ultimo_nodo_tiempo)
-                        print("Nodo Dato: "+ nodo_dato)
-                        print("c: "+str( sg.listaTemp.contar_elementos()))
                         if sg.listaTemp2.buscar_dato(actual.Dato._tiempo) != True:
                             espaciadoTexto= espaciadoTexto+" "
                             nodo_dato = f"{espaciadoTexto+str(valor)}"
                             datoTemp_obj = Dato(nodo_dato, actual.Dato._tiempo, "", "")
                             sg.listaTemp2.insertar(datoTemp_obj)
-                            print("Se agregoo1")
                         else:
                             datoTemp_obj = Dato(nodo_dato, actual.Dato._tiempo, "", "")
                             sg.listaTemp2.insertar(datoTemp_obj)
-                            print("Se agregoo2")
                         
                         self.dot.edge(ultimo_nodo_tiempo, nodo_dato)
                         
                         sg.listaTemp.eliminar_primer_dato()
                     
-                # Conectar el nodo de tiempo actual al nodo de dato actual
-                ##self.dot.edge(ultimo_nodo_tiempo, nodo_dato)
-            
-                # Actualizar el último nodo de tiempo
-                # ultimo_nodo_tiempo = nodo_tiempo
-            
+
                 actual = actual.siguiente
             
             if count>1:
