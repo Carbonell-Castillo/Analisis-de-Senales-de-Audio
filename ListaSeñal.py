@@ -30,11 +30,36 @@ class lista_enlazada:
         actual = self.primero
         print("Señales: \n")
         print("----------------------------------------------------------------------------")
+        count=0
         while actual != None:
-            print("Señal: ", actual.Señal._nombre)
-            actual.Señal._listaEntrada.recorrer()
+            count +=1
+            print("No. "+str(count)+" Señal: ", actual.Señal._nombre)
+            ##actual.Señal._listaEntrada.recorrer()
             actual = actual.siguiente
             print("----------------------------------------------------------------------------")
     
     def esta_vacia(self):
         return self.primero is None
+    
+    def contar_elementos(self):
+        count = 0
+        actual = self.primero
+        while actual:
+            count += 1
+            actual = actual.siguiente
+        return count
+    
+    def obtener_señal_por_posicion(self, posicion):
+        if posicion < 0:
+            raise ValueError("La posición no puede ser negativa.")
+        
+        actual = self.primero
+        index = 0
+
+        while actual:
+            if index == posicion:
+                return actual.Señal
+            index += 1
+            actual = actual.siguiente
+
+        raise IndexError("La posición está fuera de rango.")

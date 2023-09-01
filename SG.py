@@ -8,7 +8,8 @@ listaEntrada = lista.lista_enlazada()
 listaMatrizReducida = lista.lista_enlazada()
 listaTiempos= listaTiempo.lista_enlazada()
 listaSeñales = listaSeñal.lista_enlazada()
-
+listaTemp= lista.lista_enlazada()
+listaTemp2= lista.lista_enlazada()
 def showMenu():
     while True:
         print("-------------------------------------------------")
@@ -25,7 +26,7 @@ def showMenu():
 
         try:
             option = int(input("Ingrese una opción: "))
-            if 1 <= option <= 4:
+            if 1 <= option <= 7:
                 return option
             else:
                 print("Opción inválida. Intente nuevamente.")
@@ -51,4 +52,15 @@ def open_file():
     else:
         print("Ningún archivo seleccionado")
         return None
-    
+
+def showSeñales():
+    while True:
+        listaSeñales.recorrer()
+        try:
+            option = int(input("Ingrese el numero de la señal que desea graficar: "))
+            if 1 <= option <= listaSeñales.contar_elementos():
+                return option
+            else:
+                print("Opción inválida. Intente nuevamente.")
+        except ValueError:
+            print("Opción inválida. Intente nuevamente.")

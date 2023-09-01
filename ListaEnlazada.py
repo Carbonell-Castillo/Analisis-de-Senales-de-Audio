@@ -1,4 +1,5 @@
 from Dato import Dato
+from Graph import Graph
 from Tiempo import Tiempo
 import SG as sg
 import os
@@ -75,13 +76,9 @@ class lista_enlazada:
     while actual is not None:
         segundo = self.primero
         salida=""
-        while segundo is not None:
-            segundo2= segundo.siguiente    
+        while segundo is not None: 
             if actual.Dato._tiempo != segundo.Dato._tiempo:
-                
-                # print("Tempo1:", actual.Dato._tiempo, "tempo2:", segundo.Dato._tiempo)
-                # print("Dato1:", actual.Dato._dato, "Dato2:", segundo.Dato._dato)
-                
+
                 if actual.Dato._dato !=0 and segundo.Dato._dato !=0:
                     
                     salida= salida+ str(actual.Dato._dato+segundo.Dato._dato)+ "->"
@@ -110,13 +107,6 @@ class lista_enlazada:
                 else:
                     grupoValido= False
                     estado= True
-                # if grupoValido:
-                #     print(actual.Dato._dato, end="")
-                #     if actual.siguiente:  # Solo imprime la flecha si hay un nodo siguiente
-                #         print(" -> ", end="")
-                #     print(segundo.Dato._dato, end="")                        
-                #     print(" = ", (actual.Dato._dato+segundo.Dato._dato), end="")
-                #     print("")
                 if primerDatoMismoTiempo is None and actual.Dato._tiempo == tiempoAnterior:
                     primerDatoMismoTiempo = actual  # Guardar el primer dato con el mismo tiempo
                 tiempo_actual = actual.Dato._tiempo
@@ -126,10 +116,7 @@ class lista_enlazada:
                 if actual is None:
                     actual = primerDatoMismoTiempo  # Volver al primer dato con el mismo
                     if estado is False:
-                        # print("----Grupo encontrado----")
-                        # print("Grupo tiempo: ", actual.Dato._tiempo, " y ", segundo.Dato._tiempo)
-                        # print(salida)
-                        # print("-----------.---")
+                        
                         if grupoValido is True:
                             count +=1
                             tiempo_actual_insertar= Tiempo(tiempo_actual)
@@ -149,10 +136,7 @@ class lista_enlazada:
                         
                 if tiempoAnterior is not None and actual.Dato._tiempo != tiempoAnterior:
                     if estado is False:
-                        # print("----Grupo encontrado----")
-                        # print("Grupo tiempo: ", actual.Dato._tiempo, " y ", segundo.Dato._tiempo)
-                        # print(salida)
-                        # print("---------------")
+                        
                         if grupoValido is True:
                             count +=1
                             tiempo_actual_insertar= Tiempo(tiempo_actual)
@@ -171,11 +155,8 @@ class lista_enlazada:
                         count2=0
                     
                     actual = primerDatoMismoTiempo  # Volver al primer dato con el mismo tiempo
-                    # print("Regresé al primer dato con el mismo tiempo")
-                    terminaFila=True                                
-                # if actual.Dato._tiempo != tiempoAnterior and segundo2 != None:
-                #    actual= self.primero
-                #    print("Entro")
+                    
+                
                        
             segundo = segundo.siguiente
             
@@ -185,19 +166,15 @@ class lista_enlazada:
         
         if actual is not None:
             tiempoAnterior= actual.Dato._tiempo
-            # print("\nTiempo:", actual.Dato._tiempo)
     countTiempos = count - 1
-    # print("C tiemo: " + str(countTiempos) + " 2: " + str(self.contarTiempos()))
+    
 
     if countTiempos < self.contarTiempos():
 
         actual3 = self.primero
-        # segundo3 = sg.listaTiempos.primero
-        # print("Tiempo: ", actual3.Dato._tiempo)
         countTiempoRecorrido=0
         while actual3 != None:
             if actual3.Dato._grupo == "":
-                # print("Entro221")
                 tempTiempo2= str(actual3.Dato._tiempo)
                 obj_restante = Dato(count, tempTiempo2, actual3.Dato._amplitud, (actual3.Dato._dato))
                 listaMatrizReducida.insertar(obj_restante)
@@ -206,13 +183,11 @@ class lista_enlazada:
                 if actual3 != None:
                     if countTiempoRecorrido == self.cantidad_tiempos(actual3.Dato._tiempo):
                         count +=1
-                        # print("Se sumo: "+str(count))
             else:
                 actual3 = actual3.siguiente
         print("")
 
     listaMatrizReducida.recorrerMatrizReducida()
-    listaMatrizReducida.limpiarTodo()
 
 
   def tiempo_modificar(self,  tiempo_buscar, grupo):
@@ -236,6 +211,14 @@ class lista_enlazada:
     actual = self.primero
     while actual is not None:
         if actual.Dato._tiempo == tiempo_buscar:
+            return False
+        actual = actual.siguiente
+    return True
+    
+  def buscar_valor(self, valor):
+    actual = self.primero
+    while actual is not None:
+        if actual.Dato._dato == valor:
             return False
         actual = actual.siguiente
     return True
@@ -377,31 +360,6 @@ class lista_enlazada:
     segundo = self.primero
     tiempo_actual = -1  # Inicializar con un valor que no sea posible en tu caso
 
-    # while actual is not None:
-    #     segundo = segundo.siguiente
-        
-    #     if segundo is not None:
-    #         if actual.Dato._tiempo == segundo.Dato._tiempo:
-    #             if tiempo_actual != actual.Dato._tiempo:
-    #                 tiempo_actual = actual.Dato._tiempo
-    #                 print("\nGrupo:", end=" ")
-    #             print(actual.Dato._dato, end=" ")
-    #             actual = actual.siguiente
-    #         else:
-    #             if tiempo_actual != actual.Dato._tiempo:
-    #                 tiempo_actual = actual.Dato._tiempo
-    #                 print("\nGrupo:", end=" ")
-    #             print(actual.Dato._dato)
-    #             actual = actual.siguiente
-        
-    #     else:
-    #         if tiempo_actual != actual.Dato._tiempo:
-    #             tiempo_actual = actual.Dato._tiempo
-    #             print("\nGrupo:", end=" ")
-    #         print(actual.Dato._dato)
-    #         actual = actual.siguiente
-  
-# Llamar al método generarMatrizR
    
   def contarTiempos(self):      
     actual = self.primero
@@ -414,7 +372,6 @@ class lista_enlazada:
         
         actual = actual.siguiente
             
-    print("Cantidad de tiempos:", count)
     return count
 
 
@@ -441,3 +398,20 @@ class lista_enlazada:
     
   def esta_vacia(self):
     return self.primero is None
+  
+  def obtener_primer_dato(self):
+        if self.primero is not None:
+            return self.primero.Dato._grupo
+        else:
+            return None
+        
+  def obtener_primer_dato_tiempo(self):
+        if self.primero is not None:
+            return self.primero.Dato._grupo
+        else:
+            return None
+        
+  def eliminar_primer_dato(self):
+        if self.primero is not None:
+            self.primero = self.primero.siguiente
+        
