@@ -36,3 +36,6 @@ class lista_enlazada:
         while actual:
             print(actual.Tiempo._tiempo)
             actual = actual.siguiente
+    
+    def limpiar(self):
+        self.primero = None

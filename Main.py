@@ -16,7 +16,7 @@ if __name__ == "__main__":
                 logic.leerEntrada(archivo_entrada)
 
         elif option == 2:
-            if sg.listaEntrada.esta_vacia():
+            if sg.listaSeñales.esta_vacia():
                 print("No existen productos en existencia")
             else:
                 logic.procesarArchivo()
