@@ -35,16 +35,9 @@ class lista_enlazada:
     print("Datos: \n")
     print("----------------------------------------------------------------------------")
     while actual != None:
-      print("Grupo: ", actual.Dato._grupo, " ", actual.Dato._tiempo, " Amplitud: ", actual.Dato._amplitud, " Dato: ", actual.Dato._dato)
+      print("Grupo: ", actual.Dato._grupo, " Tiempo: ", actual.Dato._tiempo, " Amplitud: ", actual.Dato._amplitud, " Dato: ", actual.Dato._dato)
       actual = actual.siguiente
     print("----------------------------------------------------------------------------")
-  
-  def recorrer2(self):
-    actual = self.primero
-    print("Recorrer2: \n")
-    while actual != None:      
-      actual = actual.siguiente
-      return actual.Dato
  
   def generarMatrizFrecuencia(self):
     actual = self.primero
@@ -94,12 +87,12 @@ class lista_enlazada:
                 if actual.Dato._dato !=0 and segundo.Dato._dato !=0:
                     
                     salida= salida+ str(actual.Dato._dato+segundo.Dato._dato)+ "->"
-                    tempTiempo="Tiempo "+ str(actual.Dato._tiempo)+ " y "+ str(segundo.Dato._tiempo)
-                    tempTiempo2= "Tiempo "+ str(segundo.Dato._tiempo)+ " y "+ str(actual.Dato._tiempo)
+                    tempTiempo= str(actual.Dato._tiempo)+ ","+ str(segundo.Dato._tiempo)
+                    tempTiempo2= str(segundo.Dato._tiempo)+ ","+ str(actual.Dato._tiempo)
                     
                     print("TIempo temporal: ", tempTiempo)
                     if sg.listaMatrizReducida.buscar_dato(tempTiempo2):
-                        dato_obj = Dato(("Grupo "+str(count)), tempTiempo, actual.Dato._amplitud, (actual.Dato._dato+segundo.Dato._dato))
+                        dato_obj = Dato(count, tempTiempo, actual.Dato._amplitud, (actual.Dato._dato+segundo.Dato._dato))
                         sg.listaMatrizReducida.insertar(dato_obj)
                         print("Se aguardo: "+ str(actual.Dato._dato))
                         count2 +=1
@@ -110,11 +103,11 @@ class lista_enlazada:
                 elif actual.Dato._dato ==0 and segundo.Dato._dato ==0:
                     
                     salida= salida + "->"+str(actual.Dato._dato)
-                    tempTiempo="Tiempo "+ str(actual.Dato._tiempo)+ " y "+ str(segundo.Dato._tiempo)
-                    tempTiempo2= "Tiempo "+ str(segundo.Dato._tiempo)+ " y "+ str(actual.Dato._tiempo)
+                    tempTiempo= str(actual.Dato._tiempo)+ ","+ str(segundo.Dato._tiempo)
+                    tempTiempo2= str(segundo.Dato._tiempo)+ ","+ str(actual.Dato._tiempo)
                     print("TIempo temporal: ", tempTiempo)
                     if sg.listaMatrizReducida.buscar_dato(tempTiempo2):
-                        dato_obj = Dato(("Grupo "+str(count)), tempTiempo, actual.Dato._amplitud, (actual.Dato._dato+segundo.Dato._dato))
+                        dato_obj = Dato(count, tempTiempo, actual.Dato._amplitud, (actual.Dato._dato+segundo.Dato._dato))
                         sg.listaMatrizReducida.insertar(dato_obj)
                         count2 +=1
                         grupoValido= True
@@ -212,8 +205,8 @@ class lista_enlazada:
         while actual3 != None:
             if actual3.Dato._grupo == "":
                 print("Entro221")
-                tempTiempo2= "Tiempo "+ str(actual3.Dato._tiempo)
-                obj_restante = Dato(("Grupo "+str(count)), tempTiempo2, actual3.Dato._amplitud, (actual3.Dato._dato))
+                tempTiempo2= str(actual3.Dato._tiempo)
+                obj_restante = Dato(count, tempTiempo2, actual3.Dato._amplitud, (actual3.Dato._dato))
                 sg.listaMatrizReducida.insertar(obj_restante)
                 actual3= actual3.siguiente
                 countTiempoRecorrido +=1
@@ -250,7 +243,6 @@ class lista_enlazada:
         if not sg.listaMatrizReducida.tiempo_presente(tiempo_faltante):
             dato_obj = Dato(("Grupo "+str(lista.contarTiempos() + 1)), tiempo_faltante, 0, 0)
             lista.insertar(dato_obj)
-
 
   def buscar_dato(self, tiempo_buscar):
     actual = self.primero
@@ -418,30 +410,6 @@ class lista_enlazada:
             print(actual.Dato._dato)
             actual = actual.siguiente
   
-  def generarMatrizR(self):
-    cantidad_tiempos = self.contar_elementos()
-    actual = self.primero
-    
-    for tiempo1 in range(1, cantidad_tiempos + 1):
-        segundo = self.primero  
-        for tiempo2 in range(tiempo1, cantidad_tiempos + 1):
-            grupo_valido = True 
-            
-            if segundo is not None and actual is not None:  # Asegurarse de que ambos nodos sean válidos
-                if actual.Dato._tiempo != segundo.Dato._tiempo:
-                    print("Tmp1:", actual.Dato._tiempo, "Tmp2:", segundo.Dato._tiempo)
-                segundo = segundo.siguiente
-            else:
-                break  # Si alguno de los nodos es None, no hay necesidad de seguir
-            
-        actual = actual.siguiente    
-
-    
-
-# Llamar al método generarMatrizR
-
-
-
 # Llamar al método generarMatrizR
    
   def contarTiempos(self):      
@@ -482,32 +450,3 @@ class lista_enlazada:
     
   def esta_vacia(self):
     return self.primero is None
-#   def eliminar(self, usuario):
-#     actual = self.primero
-#     anterior= None
-
-#     while actual and actual.nota.usuario != usuario:
-#       anterior = actual
-#       actual = actual.siguiente
-
-#     if anterior is None:
-#       self.primero = actual.siguiente
-#       actual.siguiente = None
-#     elif actual:
-#       anterior.siguiente = actual.siguiente
-#       actual.siguiente = None
-
-#   def buscar(self, usuario):
-#     actual = self.primero
-#     anterior= None
-
-#     while actual and actual.nota.usuario != usuario:
-#       anterior = actual
-#       actual = actual.siguiente
-
-#     if anterior is None:
-#       self.primero = actual.siguiente
-#       print("Usuario: ", actual.nota.usuario, "| Titulo: ", actual.nota.titulo, "| Libreta: ", actual.nota.libreta, "| Contenido: ", actual.nota.contenido, "| Fecha creacion:", actual.nota.fecha_creacion, "| Fecha modificacion: ", actual.nota.fecha_modificacion, "| Tipo acceso: ", actual.nota.tipo_acceso)
-#     elif actual:
-#       anterior.siguiente = actual.siguiente
-#       print("Usuario: ", actual.nota.usuario, "| Titulo: ", actual.nota.titulo, "| Libreta: ", actual.nota.libreta, "| Contenido: ", actual.nota.contenido, "| Fecha creacion:", actual.nota.fecha_creacion, "| Fecha modificacion: ", actual.nota.fecha_modificacion, "| Tipo acceso: ", actual.nota.tipo_acceso)
