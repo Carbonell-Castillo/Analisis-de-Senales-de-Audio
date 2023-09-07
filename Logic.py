@@ -1,4 +1,6 @@
 import xml.etree.ElementTree as ET
+import tkinter as tk
+from tkinter import filedialog
 from Dato import Dato
 from Señal import Señal
 import SG as sg
@@ -40,14 +42,7 @@ def leerEntrada(xml_file):
             señal_obj= Señal(nombre,tiempo_total, amplitud_total, listaEntrada, listaMatrizReducida)
             sg.listaSeñales.insertar(señal_obj)
     sg.listaSeñales.recorrer()
-    # for dato_element in root.findall('.//dato'):
-    #     tiempo = int(dato_element.get('t'))
-    #     amplitud = int(dato_element.get('A'))
-    #     dato = int(dato_element.text)
-    #     dato_obj = Dato("", tiempo, amplitud, dato)
-    #     sg.listaEntrada.insertar(dato_obj)
     
-    # sg.listaEntrada.recorrer()
 
 def procesarArchivo():
     print("Se comienza a procesar el archivo: ", sg.rutaArchivo)    
@@ -65,19 +60,8 @@ def procesarArchivo():
         actual.Señal._listaEntrada.generarMatrizPatrones()
         print("")
         print("Se comienza a generar la matriz reducida")
-        actual.Señal._listaEntrada.gene2(actual.Señal._listaSalida)
+        actual.Señal._listaEntrada.generarMatrizReducida(actual.Señal._listaSalida)
 
-        # print("Se comienza a generar la grafica")
-        # print("")
-        # graph = Graph()
-        # graph.graficar(actual.Señal._listaEntrada, actual.Señal._tiempo, actual.Señal._amplitud, actual.Señal._nombre)
-        # print("Se comienza a generar la grafica reducida")
-        # graph = Graph()
-        # graph.graficarMatrizReducida(actual.Señal._listaSalida, actual.Señal._amplitud, actual.Señal._nombre)
-        # print("-------------------------")
-        # print("")
-
-        # sg.listaTiempos.limpiar()
         actual = actual.siguiente
 
 def generarGrafica(nSeñal):
@@ -95,6 +79,10 @@ def generarGrafica(nSeñal):
         print("")
 
 def escribir_archivo_salida():
+    # Crear una ventana tkinter (puedes ocultarla si lo prefieres)
+    root2 = tk.Tk()
+    root2.withdraw()  # Ocultar la ventana principal de tkinter
+
     root = ET.Element("senalesReducidas")
     actual = sg.listaSeñales.primero
     while actual is not None:
@@ -135,15 +123,28 @@ def escribir_archivo_salida():
         
         actual = actual.siguiente
     
+    # Obtener la carpeta de destino del usuario
+    carpeta_destino = filedialog.askdirectory(title="Seleccione la carpeta de destino")
+
+    if not carpeta_destino:
+        print("No se seleccionó ninguna carpeta de destino.")
+        return
+
+    # Crear la ruta completa del archivo de salida
+    ruta_archivo_salida = f"{carpeta_destino}/salida.xml"
+
     # Crear y formatear la salida XML
     xml_string = ET.tostring(root, encoding="utf-8")
     xml_pretty = minidom.parseString(xml_string).toprettyxml(indent="  ")
 
-    # Escribir el archivo XML
-    with open("salida.xml", "w") as archivo_xml:
+    # Escribir el archivo XML en la carpeta seleccionada
+    with open(ruta_archivo_salida, "w") as archivo_xml:
         archivo_xml.write(xml_pretty)
 
-    print("Archivo XML de salida creado con éxito.")
+    print(f"Archivo XML de salida creado con éxito en: {ruta_archivo_salida}")
+
+
+
 
 
 

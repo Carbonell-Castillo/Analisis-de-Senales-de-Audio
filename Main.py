@@ -41,7 +41,13 @@ if __name__ == "__main__":
                 suboption= sg.showSeñales()
                 suboption=suboption-1
                 logic.generarGrafica(suboption)
-
+        elif option == 6:
+            print("Inicializando sistema")
+            archivo_entrada = sg.open_file()        
+            if archivo_entrada:
+                print("Cargando archivo de entrada desde:", archivo_entrada)
+                logic.leerEntrada(archivo_entrada)
+            
         elif option == 7:
             print("Saliendo...")
             break
