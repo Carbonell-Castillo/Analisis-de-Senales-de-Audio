@@ -63,7 +63,7 @@ class lista_enlazada:
             actual = actual.siguiente
     print("")
 
-  def gene2(self, listaMatrizReducida):
+  def generarMatrizReducida(self, listaMatrizReducida):
     actual = self.primero
     tiempoAnterior = actual.Dato._tiempo
     primerDatoMismoTiempo = None
