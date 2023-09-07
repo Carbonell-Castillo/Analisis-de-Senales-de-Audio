@@ -42,14 +42,7 @@ def leerEntrada(xml_file):
             señal_obj= Señal(nombre,tiempo_total, amplitud_total, listaEntrada, listaMatrizReducida)
             sg.listaSeñales.insertar(señal_obj)
     sg.listaSeñales.recorrer()
-    # for dato_element in root.findall('.//dato'):
-    #     tiempo = int(dato_element.get('t'))
-    #     amplitud = int(dato_element.get('A'))
-    #     dato = int(dato_element.text)
-    #     dato_obj = Dato("", tiempo, amplitud, dato)
-    #     sg.listaEntrada.insertar(dato_obj)
     
-    # sg.listaEntrada.recorrer()
 
 def procesarArchivo():
     print("Se comienza a procesar el archivo: ", sg.rutaArchivo)    

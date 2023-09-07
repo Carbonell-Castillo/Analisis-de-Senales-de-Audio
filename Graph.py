@@ -73,11 +73,7 @@ class Graph:
                         
                         sg.listaTemp.eliminar_primer_dato()
                     
-                # Conectar el nodo de tiempo actual al nodo de dato actual
-                ##self.dot.edge(ultimo_nodo_tiempo, nodo_dato)
-            
-                # Actualizar el último nodo de tiempo
-                # ultimo_nodo_tiempo = nodo_tiempo
+
             
                 actual = actual.siguiente
             
